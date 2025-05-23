@@ -18,6 +18,7 @@
       "@model/*": ["model/*"],
       "@utils/*": ["utils/*"],
       "@error/*": ["error/*"],
+      "@graphql/*": ["graphql/*"],
       "@types": ["types"],
       "@routes": ["routes"],
       "@test/*": ["__test__/*"]
