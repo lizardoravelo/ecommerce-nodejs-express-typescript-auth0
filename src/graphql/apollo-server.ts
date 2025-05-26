@@ -13,6 +13,12 @@ export function createApolloServer() {
     introspection: true,
     persistedQueries: false,
     context: async ({ req }) => {
+      const isIntrospection = req.body?.operationName === "IntrospectionQuery";
+
+      if (isIntrospection) {
+        return { user: null }; // allow schema fetching
+      }
+
       const authHeader = req.headers.authorization || "";
       const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 
