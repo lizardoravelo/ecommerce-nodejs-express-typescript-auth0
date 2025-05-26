@@ -1,8 +1,17 @@
-# E-Commerce Node JS - Typescript
+# E-Commerce Node.js - TypeScript
 
 ## Overview
 
-E-Commerce Node JS - Typescript is an online store application that allows users to buy and sell products. The project is built using Node.js and Express, with a MongoDB database for data storage. The application supports user authentication, product management, and role-based access control.
+E-Commerce Node.js - TypeScript is an online store application that allows users to buy and sell products. It is built using Node.js, Express, and MongoDB, with GraphQL powering the API layer. The app includes secure authentication, product management, cart functionality, and role-based access control.
+
+## Features
+
+- 🔐 Auth0-based JWT authentication
+- 🧾 GraphQL API (Apollo Server)
+- 🛡 Role-based permissions using `graphql-shield`
+- 🛍 Full product and cart system
+- 🧪 Embedded GraphiQL interface
+- 📘 Swagger documentation for REST endpoints
 
 ## Getting Started
 
@@ -13,78 +22,116 @@ E-Commerce Node JS - Typescript is an online store application that allows users
 
 ## Tech Stack
 
-**Server:** Node, Express, bcrypt-nodejs, JWT, passport, swagger
+**Server:** Node.js, Express, GraphQL (Apollo Server), Auth0, JWT, graphql-shield, Mongoose, Swagger
 
 ## Installation
 
 ```bash
-  yarn install
+yarn install
 ```
 
 or
 
 ```bash
-   yarn
+yarn
 ```
 
-# Generate ENV file
+## Setup Environment
 
-Add your environment variables (e.g., MongoDB URI, JWT secret) to the .env file.
+Create a `.env` file in the root with your environment variables:
 
 ```bash
-   touch .env
+touch .env
+```
+
+Example variables:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/your-db
+AUTH0_DOMAIN=...
+AUTH0_CLIENT_ID=...
+AUTH0_AUDIENCE=...
+JWT_SECRET=...
+CORS_ORIGINS=...
+PORT=...
 ```
 
 ## Run Locally
 
-Start the development server
+Start the development server:
 
 ```bash
-  yarn run dev
+yarn run dev
 ```
 
-To start the server in production mode
+Start the server in production mode:
 
 ```bash
-  yarn run start
+yarn run start
 ```
 
-## Appendix
+## GraphQL Playground (GraphiQL)
 
-Scripts:
+After starting the server, access the embedded GraphiQL interface at:
 
-- dev: Starts the server in development mode using nodemon.
-- start: Starts the server in production mode.
-- swagger: Generates Swagger documentation for the API.
-- format: Formats the codebase using Prettier.
+```
+http://localhost:{PORT}/graphiql
+```
 
-## Documentation
+### 🔐 Authorization Required
 
-Swagger documentation is available and can be accessed at /api-docs after starting the server.
+All GraphQL queries and mutations require a valid JWT in the `Authorization` header:
 
-# Running Swagger
+```json
+{
+  "Authorization": "Bearer <your_token>"
+}
+```
 
-To read the Swagger documentation:
+If missing, the server will respond with:
+
+```
+Missing Authorization token. Please include a valid JWT in the Authorization header using the format → 'authorization': 'Bearer <your_token>'.
+```
+
+## Swagger Documentation
+
+The REST endpoints are documented using Swagger.
+
+To generate and view the Swagger docs:
 
 ```bash
-    yarn run swagger
+yarn run swagger
 ```
+
+Access it at:
+
+```
+http://localhost:{PORT}/api-docs
+```
+
+## Available Scripts
+
+| Script               | Description                                         |
+| -------------------- | --------------------------------------------------- |
+| `dev`                | Starts the server in development mode using Nodemon |
+| `start`              | Starts the server in production mode                |
+| `swagger`            | Generates Swagger documentation                     |
+| `format`             | Formats the codebase using Prettier                 |
+| `inject-swagger-env` | Injects runtime variables for Swagger               |
 
 ## Libraries Used
 
-| Library              | Version | Description                                                  |
-| -------------------- | ------- | ------------------------------------------------------------ |
-| `bcrypt-nodejs`      | ^0.0.3  | Library for hashing passwords.                               |
-| `cors`               | ^2.8.5  | Middleware to enable Cross-Origin Resource Sharing.          |
-| `dotenv`             | ^16.4.5 | Loads environment variables from a `.env` file.              |
-| `express`            | ^4.19.2 | Web framework for Node.js.                                   |
-| `http-status`        | ^1.7.4  | Utility to manage HTTP status codes.                         |
-| `jsonwebtoken`       | ^9.0.2  | JSON Web Token (JWT) implementation for user authentication. |
-| `mongoose`           | ^8.4.3  | MongoDB object modeling tool.                                |
-| `passport`           | ^0.7.0  | Authentication middleware for Node.js.                       |
-| `passport-jwt`       | ^4.0.1  | Passport strategy for JWT authentication.                    |
-| `swagger-jsdoc`      | ^6.2.8  | Generates Swagger documentation from JSDoc comments.         |
-| `swagger-ui-express` | ^5.0.1  | Serves Swagger UI for API documentation.                     |
+| Library                               | Description                                              |
+| ------------------------------------- | -------------------------------------------------------- |
+| `express`                             | Web framework for Node.js.                               |
+| `mongoose`                            | MongoDB object modeling tool.                            |
+| `graphql`, `apollo-server-express`    | Core GraphQL server integration.                         |
+| `graphql-shield`                      | Middleware for declarative permissions.                  |
+| `jsonwebtoken`, `jwks-rsa`            | JWT validation and RSA key decoding (Auth0 integration). |
+| `dotenv`                              | Loads environment variables from `.env`.                 |
+| `swagger-jsdoc`, `swagger-ui-express` | Swagger/OpenAPI doc generation & UI.                     |
+| `bcrypt-nodejs`                       | Password hashing.                                        |
 
 ## License
 
