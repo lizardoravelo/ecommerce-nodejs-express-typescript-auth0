@@ -19,12 +19,12 @@ const RootQuery = new GraphQLObjectType({
         name: { type: GraphQLString },
         description: { type: GraphQLString },
       },
-      resolve: (_, args) => {
+      resolve: async (_, args) => {
         const { skip = 0, limit = 10, name, description } = args;
         const filters: any = {};
         if (description) filters.description = new RegExp(description, "i");
         if (name) filters.name = new RegExp(name, "i");
-        return Category.find(filters).skip(skip).limit(limit);
+        return await Category.find(filters).skip(skip).limit(limit).lean();
       },
     },
     products: {
@@ -54,7 +54,7 @@ const RootQuery = new GraphQLObjectType({
           }
         }
 
-        return Product.find(filters).skip(skip).limit(limit);
+        return await Product.find(filters).skip(skip).limit(limit);
       },
     },
     cart: {
@@ -76,12 +76,12 @@ const RootQuery = new GraphQLObjectType({
         limit: { type: GraphQLInt },
         status: { type: GraphQLString },
       },
-      resolve: (_, args, context) => {
+      resolve: async (_, args, context) => {
         const { skip = 0, limit = 10, status } = args;
         const filters: any = { user: context.user?.sub };
 
         if (status) filters.status = new RegExp(status, "i");
-        return Order.find(filters).skip(skip).limit(limit);
+        return await Order.find(filters).skip(skip).limit(limit);
       },
     },
   },
