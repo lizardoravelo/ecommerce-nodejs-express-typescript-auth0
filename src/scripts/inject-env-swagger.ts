@@ -30,10 +30,6 @@ swagger.servers = [
     url: `${config.hostname}/api`,
     description: "REST API",
   },
-  {
-    url: `ws://${config.hostname.replace(/^https?:\/\//, "")}`,
-    description: "WebSocket API",
-  },
 ];
 
 // Ensure dist exists and write file
