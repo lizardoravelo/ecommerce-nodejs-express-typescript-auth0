@@ -4,6 +4,7 @@ import baseSchema from "@graphql/schema";
 import { permissions } from "@middleware/graphql-authorization";
 import { verifyJwtToken } from "@utils/jwt-verifier";
 import { Auth0User } from "@types";
+import isIntrospectionQuery from "@graphql/utils";
 
 const schemaWithMiddleware = applyMiddleware(baseSchema, permissions);
 
@@ -13,10 +14,10 @@ export function createApolloServer() {
     introspection: true,
     persistedQueries: false,
     context: async ({ req }) => {
-      const isIntrospection = req.body?.operationName === "IntrospectionQuery";
+      const query = req.body?.query;
 
-      if (isIntrospection) {
-        return { user: null }; // allow schema fetching
+      if (isIntrospectionQuery(query)) {
+        return { user: null };
       }
 
       const authHeader = req.headers.authorization || "";
