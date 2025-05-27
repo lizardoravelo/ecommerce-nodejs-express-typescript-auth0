@@ -6,6 +6,7 @@ import config from "./config/constants";
 import { router } from "@routes";
 import { createApolloServer } from "@graphql/apollo-server";
 import path from "path";
+import { globalRateLimiter } from "@middleware/rateLimiter";
 
 const app: Application = express();
 
@@ -27,6 +28,8 @@ app.use(router);
 async function startApollo() {
   const apolloServer = createApolloServer();
   await apolloServer.start();
+
+  app.use("/graphql", globalRateLimiter);
   apolloServer.applyMiddleware({ app, path: "/graphql" });
 }
 
