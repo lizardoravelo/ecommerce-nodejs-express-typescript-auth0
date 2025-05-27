@@ -9,6 +9,7 @@ import path from "path";
 import { globalRateLimiter } from "@middleware/rateLimiter";
 
 const app: Application = express();
+app.set("trust proxy", 1); // Trust the first proxy (for Heroku or similar environments)
 
 //Listener
 const server = app.listen(config.port, () => {
